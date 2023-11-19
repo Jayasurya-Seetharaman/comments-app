@@ -7,10 +7,10 @@ function App() {
   const { addPost, posts, sortBy, setSortBy } = appPersistentStore();
   const sortedPosts = sortPostsByTimestamp(posts, sortBy);
   return (
-    <>
-      <h1>Comments App</h1>
+    <div className="max-w-[600px] m-auto">
+      <h1 className="my-2">Comments App</h1>
       <PostForm headerText="Comment" onSubmit={addPost} />
-      <div className="max-w-[600px] m-auto text-right">
+      <div className="text-right mb-1">
         <button
           onClick={() =>
             sortBy === "asc" ? setSortBy("desc") : setSortBy("asc")
@@ -21,7 +21,7 @@ function App() {
         </button>
       </div>
       <Posts type="comment" data={sortedPosts} />
-    </>
+    </div>
   );
 }
 

@@ -3,7 +3,7 @@ import PostForm from "./PostForm";
 import { appPersistentStore, appStore } from "../stores/appStore";
 import { formatDate } from "../utils/dateTime";
 import { classNames } from "../utils/classNames";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 /* check if we can use discriminated unions to make this component more generic */
 // type CommentPostProps = {
@@ -39,34 +39,43 @@ export default function Posts(props: PostsProps) {
 
   const { type, data, postId } = props;
 
-  const handleOnAddReplySubmit = (e: CommonProps, id: string) => {
-    addReply(e, id);
-    setCurrentFocusReplyId("");
-  };
+  const handleOnReplySubmit = useCallback(
+    (e: CommonProps, id: string) => {
+      addReply(e, id);
+      setCurrentFocusReplyId("");
+    },
+    [addReply, setCurrentFocusReplyId]
+  );
 
-  const handleOnEditSubmit = (e: CommonProps, id: string) => {
-    if (type === "comment") {
-      editPost(e);
-    } else {
-      postId && editReply(e, id, postId);
-    }
-    setCurrentFocusEditId("");
-  };
+  const handleOnEditSubmit = useCallback(
+    (e: CommonProps, id: string) => {
+      if (type === "comment") {
+        editPost(e);
+      } else {
+        postId && editReply(e, id, postId);
+      }
+      setCurrentFocusEditId("");
+    },
+    [editPost, editReply, postId, setCurrentFocusEditId, type]
+  );
 
-  const handleOnDelete = (id: string) => {
-    if (type === "comment") {
-      deletePost(id);
-    } else {
-      postId && deleteReply(id, postId);
-    }
-  };
+  const handleOnDelete = useCallback(
+    (id: string) => {
+      if (type === "comment") {
+        deletePost(id);
+      } else {
+        postId && deleteReply(id, postId);
+      }
+    },
+    [deletePost, deleteReply, postId, type]
+  );
 
   useEffect(() => {
     formRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [currentFocusReplyId, currentFocusEditId]);
 
   return (
-    <div className="max-w-[600px] m-auto flex flex-col rounded-sm">
+    <div className="m-auto flex flex-col rounded-sm">
       {data.map((post) => {
         return (
           <div key={post.id}>
@@ -118,7 +127,7 @@ export default function Posts(props: PostsProps) {
               <div className="ml-16" ref={formRef}>
                 <PostForm
                   headerText="Reply"
-                  onSubmit={(e) => handleOnAddReplySubmit(e, post.id)}
+                  onSubmit={(e) => handleOnReplySubmit(e, post.id)}
                   onCancel={() => setCurrentFocusReplyId("")}
                   showCancel
                 />
