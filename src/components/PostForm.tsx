@@ -4,12 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import { CommonProps } from "../types";
 import { classNames } from "../utils/classNames";
 
-type PostFormProps = {
+type PostFormProps = Partial<CommonProps> & {
   headerText: string;
-  initialName?: string;
-  initialMessage?: string;
   isEdit?: boolean;
-  id?: string;
   onSubmit: (e: CommonProps) => void;
   onCancel?: () => void;
   showCancel?: boolean;
@@ -19,8 +16,9 @@ export default function PostForm(props: PostFormProps) {
   const {
     headerText,
     id,
-    initialName,
-    initialMessage,
+    name: initialName,
+    message: initialMessage,
+    timestamp,
     isEdit,
     onSubmit,
     onCancel,
@@ -60,7 +58,7 @@ export default function PostForm(props: PostFormProps) {
         id: id || uuidv4(),
         name,
         message,
-        timestamp: new Date().toISOString(),
+        timestamp: timestamp || new Date().toISOString(),
       });
 
     setName("");

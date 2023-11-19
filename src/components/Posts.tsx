@@ -134,8 +134,9 @@ export default function Posts(props: PostsProps) {
                 <PostForm
                   id={post.id}
                   headerText={"Edit " + type}
-                  initialName={post.name}
-                  initialMessage={post.message}
+                  name={post.name}
+                  message={post.message}
+                  timestamp={post.timestamp}
                   isEdit={true}
                   onSubmit={(e) => handleOnEditSubmit(e, post.id)}
                   onCancel={() => setCurrentFocusEditId("")}
