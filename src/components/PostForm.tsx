@@ -9,11 +9,13 @@ type PostFormProps = {
   initialName?: string;
   initialMessage?: string;
   isEdit?: boolean;
+  id?: string;
   onSubmit: (e: CommonProps) => void;
 };
 
 export default function PostForm(props: PostFormProps) {
-  const { headerText, initialName, initialMessage, isEdit, onSubmit } = props;
+  const { headerText, id, initialName, initialMessage, isEdit, onSubmit } =
+    props;
   const [name, setName] = useState(initialName || "");
   const [message, setMessage] = useState(initialMessage || "");
   const [errorMessage, setErrorMessage] = useState("");
@@ -45,7 +47,7 @@ export default function PostForm(props: PostFormProps) {
 
     onSubmit &&
       onSubmit({
-        id: uuidv4(),
+        id: id || uuidv4(),
         name,
         message,
         timestamp: new Date().toISOString(),

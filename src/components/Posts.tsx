@@ -24,13 +24,23 @@ type PostsProps = {
 };
 
 export default function Posts(props: PostsProps) {
-  const { addReply } = appStore();
+  const { addReply, editPost, editReply } = appStore();
   const [currentFocusReplyId, setCurrentFocusReplyId] = useState("");
+  const [currentFocusEditId, setCurrentFocusEditId] = useState("");
   const { type, data, postId } = props;
 
   const handleOnAddReplySubmit = (e: CommonProps, id: string) => {
     addReply(e, id);
     setCurrentFocusReplyId("");
+  };
+
+  const handleOnEditSubmit = (e: CommonProps, id: string) => {
+    if (type === "comment") {
+      editPost(e);
+    } else {
+      postId && editReply(e, id, postId);
+    }
+    setCurrentFocusEditId("");
   };
 
   return (
@@ -50,12 +60,27 @@ export default function Posts(props: PostsProps) {
                   Reply
                 </button>
               )}
-              <button className="text-blue-500">Edit</button>
+              <button
+                className="text-blue-500"
+                onClick={() => setCurrentFocusEditId(post.id)}
+              >
+                Edit
+              </button>
             </div>
             {currentFocusReplyId === post.id && (
               <PostForm
                 headerText="Reply"
                 onSubmit={(e) => handleOnAddReplySubmit(e, post.id)}
+              />
+            )}
+            {currentFocusEditId === post.id && (
+              <PostForm
+                id={post.id}
+                headerText={type + " Edit"}
+                initialName={post.name}
+                initialMessage={post.message}
+                isEdit={true}
+                onSubmit={(e) => handleOnEditSubmit(e, post.id)}
               />
             )}
             {post.replies && post.replies.length > 0 && (
