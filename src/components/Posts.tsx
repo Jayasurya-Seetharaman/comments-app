@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { CommonProps, PostProps } from "../types";
 import PostForm from "./PostForm";
-import { appStore } from "../stores/appStore";
-import React from "react";
+import { appPersistentStore, appStore } from "../stores/appStore";
 import { formatDate } from "../utils/dateTime";
+import { classNames } from "../utils/classNames";
 
 /* check if we can use discriminated unions to make this component more generic */
 // type CommentPostProps = {
@@ -26,9 +25,15 @@ type PostsProps = {
 };
 
 export default function Posts(props: PostsProps) {
-  const { addReply, editPost, editReply, deletePost, deleteReply } = appStore();
-  const [currentFocusReplyId, setCurrentFocusReplyId] = useState("");
-  const [currentFocusEditId, setCurrentFocusEditId] = useState("");
+  const { addReply, editPost, editReply, deletePost, deleteReply } =
+    appPersistentStore();
+  const {
+    currentFocusEditId,
+    currentFocusReplyId,
+    setCurrentFocusEditId,
+    setCurrentFocusReplyId,
+  } = appStore();
+
   const { type, data, postId } = props;
 
   const handleOnAddReplySubmit = (e: CommonProps, id: string) => {
@@ -54,56 +59,83 @@ export default function Posts(props: PostsProps) {
   };
 
   return (
-    <div className="px-4 py-2 max-w-[600px] m-auto flex flex-col border border-[#EFEFEF] rounded-sm">
+    <div className="max-w-[600px] m-auto flex flex-col rounded-sm">
       {data.map((post) => {
         console.log("post.id", post.id);
         return (
-          <React.Fragment key={post.id}>
-            <div>
-              <div>{post.name}</div>
-              <div>{post.message}</div>
-              <div>{formatDate(post.timestamp)}</div>
+          <div key={post.id}>
+            <div
+              className={classNames(
+                "bg-[#F6F6F6] max-w[600px] px-4 py-2 rounded-sm mb-2 border border-[#EFEFEF] relative",
+                {
+                  "ml-16": type === "reply",
+                }
+              )}
+            >
+              <div className="flex justify-between">
+                <div className="truncate w-[calc(100%-120px)]">
+                  <b>{post.name}</b>
+                </div>
+                <div>{formatDate(post.timestamp)}</div>
+              </div>
+              <div className="my-1">{post.message}</div>
               {type === "comment" && (
                 <button
-                  onClick={() => setCurrentFocusReplyId(post.id)}
+                  onClick={() => {
+                    setCurrentFocusReplyId(post.id);
+                    setCurrentFocusEditId("");
+                  }}
                   className="text-blue-500 mr-3"
                 >
-                  Reply
+                  <b>Reply</b>
                 </button>
               )}
               <button
                 className="text-blue-500"
-                onClick={() => setCurrentFocusEditId(post.id)}
+                onClick={() => {
+                  setCurrentFocusEditId(post.id);
+                  setCurrentFocusReplyId("");
+                }}
               >
-                Edit
+                <b>Edit</b>
               </button>
               <button
-                className="text-blue-500 ml-3"
+                className="text-blue-500 ml-3 absolute right-[-10px] top-0 bottom-0"
                 onClick={() => handleOnDelete(post.id)}
               >
-                Delete
+                <b>
+                  <span>🗑️</span>
+                </b>
               </button>
             </div>
             {currentFocusReplyId === post.id && (
-              <PostForm
-                headerText="Reply"
-                onSubmit={(e) => handleOnAddReplySubmit(e, post.id)}
-              />
+              <div className="ml-16">
+                <PostForm
+                  headerText="Reply"
+                  onSubmit={(e) => handleOnAddReplySubmit(e, post.id)}
+                />
+              </div>
             )}
             {currentFocusEditId === post.id && (
-              <PostForm
-                id={post.id}
-                headerText={type + " Edit"}
-                initialName={post.name}
-                initialMessage={post.message}
-                isEdit={true}
-                onSubmit={(e) => handleOnEditSubmit(e, post.id)}
-              />
+              <div
+                className={classNames({
+                  "ml-16": type === "reply",
+                })}
+              >
+                <PostForm
+                  id={post.id}
+                  headerText={type + " Edit"}
+                  initialName={post.name}
+                  initialMessage={post.message}
+                  isEdit={true}
+                  onSubmit={(e) => handleOnEditSubmit(e, post.id)}
+                />
+              </div>
             )}
             {post.replies && post.replies.length > 0 && (
               <Posts type="reply" data={post.replies} postId={post.id} />
             )}
-          </React.Fragment>
+          </div>
         );
       })}
     </div>

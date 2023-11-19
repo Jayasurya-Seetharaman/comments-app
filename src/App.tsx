@@ -1,10 +1,10 @@
 import PostForm from "./components/PostForm";
 import Posts from "./components/Posts";
-import { appStore } from "./stores/appStore";
+import { appPersistentStore } from "./stores/appStore";
 import { sortPostsByTimestamp } from "./utils";
 
 function App() {
-  const { addPost, posts, sortBy, setSortBy } = appStore();
+  const { addPost, posts, sortBy, setSortBy } = appPersistentStore();
   const sortedPosts = sortPostsByTimestamp(posts, sortBy);
   return (
     <>

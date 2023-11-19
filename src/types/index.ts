@@ -9,7 +9,7 @@ export type PostProps = CommonProps & {
     replies?: CommonProps[];
 };
 
-export type AppStore = {
+export type AppPersistentStore = {
     sortBy: 'asc' | 'desc';
     posts: PostProps[];
     addPost: (post: PostProps) => void;
@@ -20,3 +20,10 @@ export type AppStore = {
     deleteReply: (replyId: string, postId: string) => void;
     setSortBy: (sortBy: 'asc' | 'desc') => void;
 };
+
+export type AppStore = {
+    currentFocusReplyId: string;
+    setCurrentFocusReplyId: (replyId: string) => void;
+    currentFocusEditId: string;
+    setCurrentFocusEditId: (postId: string) => void;
+}

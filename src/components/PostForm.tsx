@@ -58,8 +58,8 @@ export default function PostForm(props: PostFormProps) {
   };
 
   return (
-    <div className="px-4 py-2 max-w-[600px] m-auto flex flex-col border border-[#EFEFEF] rounded-sm">
-      <div className="mb-2">{headerText}</div>
+    <div className="px-4 py-2 max-w-[600px] m-auto mb-2 flex flex-col bg-[#F6F6F6] border border-[#EFEFEF] rounded-sm">
+      <div className="mb-2 capitalize">{headerText}</div>
       <input
         type="text"
         placeholder="Name"

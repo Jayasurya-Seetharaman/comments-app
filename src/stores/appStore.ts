@@ -1,8 +1,8 @@
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { create } from 'zustand';
-import { AppStore } from '../types';
+import { AppPersistentStore, AppStore } from '../types';
 
-export const appStore = create<AppStore>()(
+export const appPersistentStore = create<AppPersistentStore>()(
     persist((set, get) => ({
         sortBy: 'asc',
         posts: [],
@@ -65,3 +65,10 @@ export const appStore = create<AppStore>()(
         storage: createJSONStorage(() => localStorage),
     })
 )
+
+export const appStore = create<AppStore>((set) => ({
+    currentFocusReplyId: '',
+    currentFocusEditId: '',
+    setCurrentFocusReplyId: (id) => set({ currentFocusReplyId: id }),
+    setCurrentFocusEditId: (id) => set({ currentFocusEditId: id }),
+}));
