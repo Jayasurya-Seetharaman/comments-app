@@ -4,7 +4,9 @@ import { AppStore } from '../types';
 
 export const appStore = create<AppStore>()(
     persist((set, get) => ({
+        sortBy: 'asc',
         posts: [],
+        setSortBy: (sortBy) => set({ sortBy }),
         addPost: (post) => set({ posts: [...get().posts, post] }),
         addReply: (reply, postId) => set({
             posts: get().posts.map((post) => {
