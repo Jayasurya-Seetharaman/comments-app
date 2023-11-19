@@ -11,11 +11,21 @@ type PostFormProps = {
   isEdit?: boolean;
   id?: string;
   onSubmit: (e: CommonProps) => void;
+  onCancel?: () => void;
+  showCancel?: boolean;
 };
 
 export default function PostForm(props: PostFormProps) {
-  const { headerText, id, initialName, initialMessage, isEdit, onSubmit } =
-    props;
+  const {
+    headerText,
+    id,
+    initialName,
+    initialMessage,
+    isEdit,
+    onSubmit,
+    onCancel,
+    showCancel,
+  } = props;
   const [name, setName] = useState(initialName || "");
   const [message, setMessage] = useState(initialMessage || "");
   const [errorMessage, setErrorMessage] = useState("");
@@ -90,6 +100,18 @@ export default function PostForm(props: PostFormProps) {
       />
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <div className="flex justify-end">
+        {showCancel && (
+          <button
+            onClick={() => {
+              setName(initialName || "");
+              setMessage(initialMessage || "");
+              onCancel && onCancel();
+            }}
+            className="text-blue-500 font-bold mr-3"
+          >
+            Cancel
+          </button>
+        )}
         <button
           onClick={handleSubmit}
           className="bg-[#3494FF] py-1 px-4 min-w-[100px] rounded uppercase text-white"

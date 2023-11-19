@@ -3,6 +3,7 @@ import PostForm from "./PostForm";
 import { appPersistentStore, appStore } from "../stores/appStore";
 import { formatDate } from "../utils/dateTime";
 import { classNames } from "../utils/classNames";
+import { useEffect, useRef } from "react";
 
 /* check if we can use discriminated unions to make this component more generic */
 // type CommentPostProps = {
@@ -34,6 +35,8 @@ export default function Posts(props: PostsProps) {
     setCurrentFocusReplyId,
   } = appStore();
 
+  const formRef = useRef<HTMLDivElement>(null);
+
   const { type, data, postId } = props;
 
   const handleOnAddReplySubmit = (e: CommonProps, id: string) => {
@@ -58,10 +61,13 @@ export default function Posts(props: PostsProps) {
     }
   };
 
+  useEffect(() => {
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [currentFocusReplyId, currentFocusEditId]);
+
   return (
     <div className="max-w-[600px] m-auto flex flex-col rounded-sm">
       {data.map((post) => {
-        console.log("post.id", post.id);
         return (
           <div key={post.id}>
             <div
@@ -109,10 +115,12 @@ export default function Posts(props: PostsProps) {
               </button>
             </div>
             {currentFocusReplyId === post.id && (
-              <div className="ml-16">
+              <div className="ml-16" ref={formRef}>
                 <PostForm
                   headerText="Reply"
                   onSubmit={(e) => handleOnAddReplySubmit(e, post.id)}
+                  onCancel={() => setCurrentFocusReplyId("")}
+                  showCancel
                 />
               </div>
             )}
@@ -121,14 +129,17 @@ export default function Posts(props: PostsProps) {
                 className={classNames({
                   "ml-16": type === "reply",
                 })}
+                ref={formRef}
               >
                 <PostForm
                   id={post.id}
-                  headerText={type + " Edit"}
+                  headerText={"Edit " + type}
                   initialName={post.name}
                   initialMessage={post.message}
                   isEdit={true}
                   onSubmit={(e) => handleOnEditSubmit(e, post.id)}
+                  onCancel={() => setCurrentFocusEditId("")}
+                  showCancel
                 />
               </div>
             )}
