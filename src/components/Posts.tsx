@@ -3,6 +3,7 @@ import { CommonProps, PostProps } from "../types";
 import PostForm from "./PostForm";
 import { appStore } from "../stores/appStore";
 import React from "react";
+import { formatDate } from "../utils/dateTime";
 
 /* check if we can use discriminated unions to make this component more generic */
 // type CommentPostProps = {
@@ -61,7 +62,7 @@ export default function Posts(props: PostsProps) {
             <div>
               <div>{post.name}</div>
               <div>{post.message}</div>
-              <div>{post.timestamp}</div>
+              <div>{formatDate(post.timestamp)}</div>
               {type === "comment" && (
                 <button
                   onClick={() => setCurrentFocusReplyId(post.id)}
