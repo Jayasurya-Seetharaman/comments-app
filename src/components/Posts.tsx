@@ -24,7 +24,7 @@ type PostsProps = {
 };
 
 export default function Posts(props: PostsProps) {
-  const { addReply, editPost, editReply } = appStore();
+  const { addReply, editPost, editReply, deletePost, deleteReply } = appStore();
   const [currentFocusReplyId, setCurrentFocusReplyId] = useState("");
   const [currentFocusEditId, setCurrentFocusEditId] = useState("");
   const { type, data, postId } = props;
@@ -41,6 +41,14 @@ export default function Posts(props: PostsProps) {
       postId && editReply(e, id, postId);
     }
     setCurrentFocusEditId("");
+  };
+
+  const handleOnDelete = (id: string) => {
+    if (type === "comment") {
+      deletePost(id);
+    } else {
+      postId && deleteReply(id, postId);
+    }
   };
 
   return (
@@ -65,6 +73,12 @@ export default function Posts(props: PostsProps) {
                 onClick={() => setCurrentFocusEditId(post.id)}
               >
                 Edit
+              </button>
+              <button
+                className="text-blue-500 ml-3"
+                onClick={() => handleOnDelete(post.id)}
+              >
+                Delete
               </button>
             </div>
             {currentFocusReplyId === post.id && (
