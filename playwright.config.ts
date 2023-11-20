@@ -70,12 +70,4 @@ const config: PlaywrightTestConfig = {
 
 };
 
-if (process.env.CI) {
-  config.webServer = {
-    url: 'http://localhost:3000',
-    command: 'pnpm run start',
-    timeout: 50000,
-  };
-}
-
 export default config;
