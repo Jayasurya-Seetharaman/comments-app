@@ -27,19 +27,19 @@ export default function Posts(props: PostsProps) {
   const { type, data, postId } = props;
 
   const handleOnReplySubmit = useCallback(
-    (e: CommonProps, id: string) => {
-      addReply(e, id);
+    (args: CommonProps, id: string) => {
+      addReply(args, id);
       setCurrentFocusReplyId("");
     },
     [addReply, setCurrentFocusReplyId]
   );
 
   const handleOnEditSubmit = useCallback(
-    (e: CommonProps, id: string) => {
+    (args: CommonProps, id: string) => {
       if (type === "comment") {
-        editPost(e);
+        editPost(args);
       } else {
-        postId && editReply(e, id, postId);
+        postId && editReply(args, id, postId);
       }
       setCurrentFocusEditId("");
     },
