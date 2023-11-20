@@ -5,7 +5,7 @@ export class PostsPage {
     constructor(private readonly page: Page) {}
 
     async load() {
-        await this.page.goto('http://localhost:5173/');
+        await this.page.goto('http://localhost:3000');
     }
 
     private async postComment() {
