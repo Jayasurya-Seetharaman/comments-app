@@ -6,20 +6,6 @@ import { classNames } from "../utils/classNames";
 import { useCallback, useEffect, useRef } from "react";
 import svgIcon from "../assets/svg/delete-button.svg";
 
-/* check if we can use discriminated unions to make this component more generic */
-// type CommentPostProps = {
-//   type: "comment";
-//   data: PostsProps[];
-//   postId: string;
-// };
-
-// type ReplyPostProps = {
-//   type: "reply";
-//   data: CommonProps[];
-// };
-
-// type PostsProps = CommentPostProps | ReplyPostProps;
-
 type PostsProps = {
   type: "comment" | "reply";
   data: PostProps[];
