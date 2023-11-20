@@ -31,7 +31,8 @@ Here are some important assumptions of the UI:
   
 UI layout
 
-<img width="1064" alt="ui-screenshot" src="https://github.com/Jayasurya-Seetharaman/comments-app/assets/22392903/e9c5615b-ff98-4edf-a909-63e04e63890d">
+<img width="1064" alt="ui-screenshot" src="https://github.com/Jayasurya-Seetharaman/comments-app/assets/22392903/93162b53-e9ed-4b08-9684-53646c7bb8c1">
+
 
 The layout has two major components:
 - **PostForm**: It's where I render the form and all form validations are also has been handled here. The same component is reused to Edit Comment & Reply with the help of props.
@@ -39,7 +40,8 @@ The layout has two major components:
 
 And the folder structure looks like this:
 
-<img width="298" alt="Screenshot 2023-11-20 at 10 20 21 PM" src="https://github.com/Jayasurya-Seetharaman/comments-app/assets/22392903/8ec65881-8e49-4a88-bf02-dffe4314e4a1">
+<img width="298" alt="folder" src="https://github.com/Jayasurya-Seetharaman/comments-app/assets/22392903/0ecc9c0c-638b-425b-94ab-4a01df7e94e0">
+
 
 **Local setupp**
 
