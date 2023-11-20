@@ -74,7 +74,7 @@ export default function Posts(props: PostsProps) {
               className={classNames(
                 "bg-gray-100 max-w[600px] px-4 py-2 rounded-sm mb-2 border border-slate-200 relative",
                 {
-                  "ml-16": type === "reply",
+                  "ml-6 sm:ml-16": type === "reply",
                 }
               )}
             >
@@ -126,7 +126,7 @@ export default function Posts(props: PostsProps) {
               </button>
             </div>
             {currentFocusReplyId === post.id && (
-              <div className="ml-16" ref={formRef}>
+              <div className="ml-6 sm:ml-16" ref={formRef}>
                 <PostForm
                   headerText="Reply"
                   onSubmit={(e) => handleOnReplySubmit(e, post.id)}
@@ -138,7 +138,7 @@ export default function Posts(props: PostsProps) {
             {currentFocusEditId === post.id && (
               <div
                 className={classNames({
-                  "ml-16": type === "reply",
+                  "ml-6 sm:ml-16": type === "reply",
                 })}
                 ref={formRef}
               >

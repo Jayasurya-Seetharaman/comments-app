@@ -14,7 +14,7 @@ export default function PostsController() {
   const sortedPosts = sortPostsByTimestamp(posts, sortBy);
   return (
     <>
-      <div className="text-right mb-1">
+      <div className="mr-3 sm:mr-0 text-right mb-1">
         {sortedPosts.length > 0 && (
           <button
             onClick={() =>
