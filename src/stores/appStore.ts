@@ -2,7 +2,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 import { create } from 'zustand';
 import { AppPersistentStore, AppStore } from '../types';
 
-export const appPersistentStore = create<AppPersistentStore>()(
+export const postsStore = create<AppPersistentStore>()(
     persist((set, get) => ({
         sortBy: 'asc',
         posts: [],

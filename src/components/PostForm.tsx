@@ -51,7 +51,6 @@ export default function PostForm(props: PostFormProps) {
       return;
     }
     setErrorMessage("");
-    console.log("Form submitted:", name, message);
 
     onSubmit &&
       onSubmit({
@@ -66,7 +65,14 @@ export default function PostForm(props: PostFormProps) {
   };
 
   return (
-    <div className="px-4 py-2 max-w-[600px] m-auto mb-2 flex flex-col bg-[#F6F6F6] border border-[#EFEFEF] rounded-sm">
+    <div
+      className={classNames(
+        "px-4 py-2 max-w-2xl m-auto mb-2 flex flex-col bg-gray-100 border border-slate-200 rounded-sm",
+        {
+          "mx-3 sm:mx-0": !isEdit && !showCancel,
+        }
+      )}
+    >
       <div className="mb-2 capitalize">{headerText}</div>
       <input
         type="text"
@@ -79,6 +85,7 @@ export default function PostForm(props: PostFormProps) {
           "px-2 py-1 mb-2 border border-[#EFEFEF] rounded-sm",
           {
             "border-red-500": errorMessage && !name,
+            "cursor-not-allowed": isEdit,
           }
         )}
         disabled={isEdit}
@@ -96,7 +103,7 @@ export default function PostForm(props: PostFormProps) {
           }
         )}
       />
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {errorMessage && <p className="text-red-600">{errorMessage}</p>}
       <div className="flex justify-end">
         {showCancel && (
           <button

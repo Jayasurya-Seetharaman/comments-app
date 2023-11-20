@@ -1,9 +1,10 @@
 import { CommonProps, PostProps } from "../types";
 import PostForm from "./PostForm";
-import { appPersistentStore, appStore } from "../stores/appStore";
+import { postsStore, appStore } from "../stores/appStore";
 import { formatDate } from "../utils/dateTime";
 import { classNames } from "../utils/classNames";
 import { useCallback, useEffect, useRef } from "react";
+import svgIcon from "../assets/svg/delete-button.svg";
 
 /* check if we can use discriminated unions to make this component more generic */
 // type CommentPostProps = {
@@ -27,7 +28,7 @@ type PostsProps = {
 
 export default function Posts(props: PostsProps) {
   const { addReply, editPost, editReply, deletePost, deleteReply } =
-    appPersistentStore();
+    postsStore();
   const {
     currentFocusEditId,
     currentFocusReplyId,
@@ -75,13 +76,17 @@ export default function Posts(props: PostsProps) {
   }, [currentFocusReplyId, currentFocusEditId]);
 
   return (
-    <div className="m-auto flex flex-col rounded-sm">
+    <div
+      className={classNames("m-auto flex flex-col rounded-sm", {
+        "px-3 sm:px-0": type === "comment",
+      })}
+    >
       {data.map((post) => {
         return (
           <div key={post.id}>
             <div
               className={classNames(
-                "bg-[#F6F6F6] max-w[600px] px-4 py-2 rounded-sm mb-2 border border-[#EFEFEF] relative",
+                "bg-gray-100 max-w[600px] px-4 py-2 rounded-sm mb-2 border border-slate-200 relative",
                 {
                   "ml-16": type === "reply",
                 }
@@ -115,12 +120,16 @@ export default function Posts(props: PostsProps) {
                 <b>Edit</b>
               </button>
               <button
-                className="text-blue-500 ml-3 absolute right-[-10px] top-0 bottom-0"
+                // className="w-3 h-3 rounded-full ml-3 absolute right-[-10px] top-0 bottom-0"
+                className="w-5 h-5 text-xs bg-gray-600 rounded-full absolute -right-3 top-1/2 transform -translate-y-1/2"
                 onClick={() => handleOnDelete(post.id)}
+                title="delete post"
+                aria-label="delete post"
               >
-                <b>
-                  <span>🗑️</span>
-                </b>
+                {/* <b>
+                  <span aria-label="delete post">🗑️</span>
+                </b> */}
+                <img src={svgIcon} alt="delete post" className="w-3 m-auto" />
               </button>
             </div>
             {currentFocusReplyId === post.id && (
