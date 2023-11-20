@@ -16,6 +16,7 @@ function App() {
             onClick={() =>
               sortBy === "asc" ? setSortBy("desc") : setSortBy("asc")
             }
+            data-testis="sort-button"
           >
             Sort By: Date and Time{" "}
             {sortBy === "asc" ? (

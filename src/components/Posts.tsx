@@ -106,6 +106,7 @@ export default function Posts(props: PostsProps) {
                     setCurrentFocusEditId("");
                   }}
                   className="text-blue-500 mr-3"
+                  data-testid="reply-button"
                 >
                   <b>Reply</b>
                 </button>
@@ -116,19 +117,25 @@ export default function Posts(props: PostsProps) {
                   setCurrentFocusEditId(post.id);
                   setCurrentFocusReplyId("");
                 }}
+                data-testid={
+                  type === "comment"
+                    ? "comment-edit-button"
+                    : "reply-edit-button"
+                }
               >
                 <b>Edit</b>
               </button>
               <button
-                // className="w-3 h-3 rounded-full ml-3 absolute right-[-10px] top-0 bottom-0"
                 className="w-5 h-5 text-xs bg-gray-600 rounded-full absolute -right-3 top-1/2 transform -translate-y-1/2"
                 onClick={() => handleOnDelete(post.id)}
                 title="delete post"
                 aria-label="delete post"
+                data-testid={
+                  type === "comment"
+                    ? "comment-delete-button"
+                    : "reply-delete-button"
+                }
               >
-                {/* <b>
-                  <span aria-label="delete post">🗑️</span>
-                </b> */}
                 <img src={svgIcon} alt="delete post" className="w-3 m-auto" />
               </button>
             </div>

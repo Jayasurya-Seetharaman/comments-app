@@ -72,6 +72,7 @@ export default function PostForm(props: PostFormProps) {
           "mx-3 sm:mx-0": !isEdit && !showCancel,
         }
       )}
+      data-testid={isEdit || showCancel ? "edit-post-form" : "post-form"}
     >
       <div className="mb-2 capitalize">{headerText}</div>
       <input
@@ -81,6 +82,7 @@ export default function PostForm(props: PostFormProps) {
         value={name}
         onChange={handleNameChange}
         ref={nameRef}
+        data-testid={isEdit || showCancel ? "edit-name-input" : "name-input"}
         className={classNames(
           "px-2 py-1 mb-2 border border-[#EFEFEF] rounded-sm",
           {
@@ -96,6 +98,9 @@ export default function PostForm(props: PostFormProps) {
         value={message}
         onChange={handleMessageChange}
         ref={messageRef}
+        data-testid={
+          isEdit || showCancel ? "edit-message-input" : "message-input"
+        }
         className={classNames(
           "px-2 py-1 mb-2 border border-[#EFEFEF] rounded-sm",
           {
@@ -103,7 +108,11 @@ export default function PostForm(props: PostFormProps) {
           }
         )}
       />
-      {errorMessage && <p className="text-red-600">{errorMessage}</p>}
+      {errorMessage && (
+        <p className="text-red-600" data-testid="error-message">
+          {errorMessage}
+        </p>
+      )}
       <div className="flex justify-end">
         {showCancel && (
           <button
@@ -120,6 +129,9 @@ export default function PostForm(props: PostFormProps) {
         <button
           onClick={handleSubmit}
           className="bg-[#3494FF] py-1 px-4 min-w-[100px] rounded uppercase text-white"
+          data-testid={
+            isEdit || showCancel ? "update-post-button" : "post-button"
+          }
         >
           Post
         </button>
